@@ -150,7 +150,11 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
             T offspring2 = (T) parent2.clone();
             // Crossover
             if (Randomness.nextDouble() <= Properties.CROSSOVER_RATE) {
-                ((GuidedSinglePointCrossover) crossoverFunction).crossOver(offspring1, offspring2);
+                try {
+                    crossoverFunction.crossOver(offspring1, offspring2);
+                } catch (ConstructionFailedException e) {
+                    e.printStackTrace();
+                }
             }
 
             // Mutation
