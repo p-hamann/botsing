@@ -25,8 +25,6 @@ public class FitnessLandscapeAnalysor<T extends Chromosome> {
 	private static final Logger LOG = LoggerFactory.getLogger(FitnessLandscapeAnalysor.class);
 
 	// a bit messy, better not hard-coded, but currently not smartly implementable
-	private final boolean ENABLE_LANDMARKING_BASED_ANALYSIS = true;
-
 	private final int LENGTH_OF_RANDOM_WALK = 10000;
 
 	private final int AEP_NEIGHBORS = 100;
