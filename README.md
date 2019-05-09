@@ -33,6 +33,7 @@ $ java -jar botsing-reproduction.jar -help
 usage: java -jar botsing-reproduction.jar -crash_log stacktrace.log -target_frame 2
             -project_cp dep1.jar;dep2.jar  )
  -crash_log <arg>      File with the stack trace
+ -enable_fla           Perform fitness landscape analysis
  -D <property=value>   use value for given property
  -help                 Prints this help message.
  -project_cp <arg>      classpath of the project under test and all its

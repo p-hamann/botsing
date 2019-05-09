@@ -95,6 +95,9 @@ public class CrashProperties {
     @Parameter(key = "max_target_injection_tries", group = "Runtime", description = "The maximum number of times the search tries to generate an individuals with the target method.")
     public static int max_target_injection_tries = 150;
 
+    @Parameter(key = "enable_fla", group = "Runtime", description = "Performs fitness landscape analysis when enabled")
+    public static boolean enable_fla = false;
+
     static java.util.Properties configFile = new java.util.Properties();
 
     private CrashProperties() {
@@ -217,6 +220,10 @@ public class CrashProperties {
 
     public void resetStackTrace() {
         crash = new StackTrace();
+    }
+
+    public void enableFla() {
+    	this.enable_fla = true;
     }
 
 

@@ -29,6 +29,7 @@ public class CommandLineParameters {
     public static final String PROJECT_CP_OPT = "project_cp";
     public static final String TARGET_FRAME_OPT = "target_frame";
     public static final String CRASH_LOG_OPT = "crash_log";
+    public static final String ENABLE_FLA_OPT = "enable_fla";
     public static final String MODEL_PATH_OPT = "model";
     public static final String PROJECT_PACKAGE = "projectPackage";
     public static final String HELP_OPT = "help";
@@ -56,6 +57,10 @@ public class CommandLineParameters {
         options.addOption(Option.builder(CRASH_LOG_OPT)
                 .hasArg()
                 .desc("File with the stack trace")
+                .build());
+        // Fitness landscape analysis
+        options.addOption(Option.builder(ENABLE_FLA_OPT)
+                .desc("Perform fitness landscape analysis")
                 .build());
         // Models directory
         options.addOption(Option.builder(MODEL_PATH_OPT)

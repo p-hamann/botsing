@@ -62,6 +62,9 @@ public class Botsing {
             updateProperties(properties);
             setupStackTrace(crashProperties, commands);
             setupProjectClasspath(crashProperties, commands);
+            if (commands.hasOption(ENABLE_FLA_OPT)) {
+                crashProperties.enableFla();
+            }
             if(commands.hasOption(MODEL_PATH_OPT)){
                 setupModelSeedingRelatedProperties(commands);
             }
