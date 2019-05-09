@@ -62,14 +62,18 @@ public class CrashProperties {
 
     public enum FitnessFunction {
         WeightedSum,
-        SimpleSum;
+        SimpleSum,
+        LineDistance,
+        ExceptionDistance,
+        TraceDistance;
 
         FitnessFunction() {
         }
     }
 
     public enum SearchAlgorithm {
-        Single_Objective_GGA;
+        Single_Objective_GGA,
+        Multi_Objective_GGA;
 
         SearchAlgorithm() {
         }
@@ -81,11 +85,11 @@ public class CrashProperties {
 
 
     @Properties.Parameter(key = "SearchAlgorithm", group = "Crash reproduction", description = "Which search algorithm to use for crash reproduction")
-    public static CrashProperties.SearchAlgorithm searchAlgorithm = SearchAlgorithm.Single_Objective_GGA;
+    public static CrashProperties.SearchAlgorithm searchAlgorithm;
 
 
     @Properties.Parameter(key = "FitnessFunctions", group = "Crash reproduction", description = "Which fitness function should be used for the GGA")
-    public static CrashProperties.FitnessFunction[] fitnessFunctions = {FitnessFunction.WeightedSum};
+    public static CrashProperties.FitnessFunction[] fitnessFunctions;
 
 
 
@@ -186,6 +190,21 @@ public class CrashProperties {
 
     public void setupStackTrace(StackTrace crash) {
         this.crash = crash;
+    }
+
+    public void setupSearchAlgorithm(String searchAlgo) {
+        switch (searchAlgo) {
+            case "nsga-ii":
+                searchAlgorithm = SearchAlgorithm.Multi_Objective_GGA;
+                fitnessFunctions = new CrashProperties.FitnessFunction[]{FitnessFunction.LineDistance, FitnessFunction.ExceptionDistance, FitnessFunction.TraceDistance};
+                LOG.info("Using search algorithm NSGA-II.");
+                break;
+            case "gga":
+            default:
+                searchAlgorithm = SearchAlgorithm.Single_Objective_GGA;
+                fitnessFunctions = new CrashProperties.FitnessFunction[]{FitnessFunction.WeightedSum};
+                LOG.info("Using search algorithm GGA.");
+        }
     }
 
     public void setClasspath(String projectClassPath) {

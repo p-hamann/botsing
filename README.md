@@ -38,6 +38,7 @@ usage: java -jar botsing-reproduction.jar -crash_log stacktrace.log -target_fram
  -help                 Prints this help message.
  -project_cp <arg>      classpath of the project under test and all its
                        dependencies
+ -search_algo <arg>    Search algorithm: "gga" (default), "nsga-ii"
  -target_frame <arg>   Level of the target frame
 ```
 

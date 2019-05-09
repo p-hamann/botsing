@@ -62,6 +62,7 @@ public class Botsing {
             updateProperties(properties);
             setupStackTrace(crashProperties, commands);
             setupProjectClasspath(crashProperties, commands);
+            setupSearchAlgorithm(crashProperties, commands);
             if (commands.hasOption(ENABLE_FLA_OPT)) {
                 crashProperties.enableFla();
             }
@@ -151,6 +152,10 @@ public class Botsing {
                 LOG.info("* Error while adding classpath entry: " + entry);
             }
         }
+    }
+
+    protected void setupSearchAlgorithm(CrashProperties crashProperties, CommandLine commands) {
+        crashProperties.setupSearchAlgorithm(commands.getOptionValue(SEARCH_ALGO_OPT));
     }
 
     private void printHelpMessage(Options options) {
