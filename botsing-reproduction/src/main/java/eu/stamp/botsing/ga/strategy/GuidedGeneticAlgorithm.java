@@ -22,6 +22,7 @@ package eu.stamp.botsing.ga.strategy;
 
 
 import eu.stamp.botsing.CrashProperties;
+import eu.stamp.botsing.ga.landscape.FitnessLandscapeAnalysor;
 import eu.stamp.botsing.ga.strategy.operators.GuidedMutation;
 import eu.stamp.botsing.ga.strategy.operators.GuidedSinglePointCrossover;
 import org.evosuite.Properties;
@@ -50,10 +51,20 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
 
     private int eliteSize;
 
+    private FitnessLandscapeAnalysor landscape;
+
+    private boolean enableFla;
+
     public GuidedGeneticAlgorithm(ChromosomeFactory<T> factory) {
         super(factory);
         this.crossoverFunction = new GuidedSinglePointCrossover();
         this.mutation = new GuidedMutation<>();
+        if (CrashProperties.enable_fla) {
+            this.landscape = new FitnessLandscapeAnalysor(chromosomeFactory, selectionFunction, fitnessFunctions, mutation, crossoverFunction, true);
+            this.enableFla = true;
+        } else {
+            this.enableFla = false;
+        }
         try {
             this.populationSize =  CrashProperties.getInstance().getIntValue("population");
             this.eliteSize = CrashProperties.getInstance().getIntValue("elite");
@@ -74,6 +85,9 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
         while (!initilized){
             try {
                 initializePopulation();
+                if (enableFla) {
+                    landscape.addFittest(getBestIndividual());
+                }
                 initilized=true;
             }catch (Exception |Error e){
                 LOG.warn("Botsing was unsuccessful in generating the initial population. cause: {}",e.getMessage());
@@ -97,6 +111,9 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
                 try{
                     evolve();
                     sortPopulation();
+                    if (enableFla) {
+                        landscape.addFittest(getBestIndividual());
+                    }
                     newGen=true;
                 }catch (Error | Exception e){
                     LOG.warn("Botsing was unsuccessful in generating new generation. cause: {}",e.getMessage());
@@ -125,6 +142,10 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
         }
         LOG.info("The search process is finished.");
         reportNewBestFF(lastBestFitness,finalPT);
+        if (enableFla) {
+            landscape.printMetricValues();
+            landscape.createPlotFiles();
+        }
     }
 
     private void reportNewBestFF(double lastBestFitness, long finalPT) {
@@ -199,6 +220,9 @@ public class GuidedGeneticAlgorithm<T extends Chromosome> extends GeneticAlgorit
         }
 
         population = newGeneration;
+        if (enableFla) {
+            landscape.addPopulation(population);
+        }
         // archive
         updateFitnessFunctionsAndValues();
 
