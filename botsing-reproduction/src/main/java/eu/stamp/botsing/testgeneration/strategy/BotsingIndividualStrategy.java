@@ -23,6 +23,7 @@ package eu.stamp.botsing.testgeneration.strategy;
 import eu.stamp.botsing.CrashProperties;
 import eu.stamp.botsing.fitnessfunction.FitnessFunctionHelper;
 import eu.stamp.botsing.fitnessfunction.testcase.factories.RootMethodTestChromosomeFactory;
+import eu.stamp.botsing.ga.strategy.AdaptiveGuidedGeneticAlgorithm;
 import eu.stamp.botsing.ga.strategy.GuidedGeneticAlgorithm;
 import eu.stamp.botsing.ga.strategy.GuidedNSGAII;
 import eu.stamp.botsing.ga.strategy.operators.GuidedSearchUtility;
@@ -122,6 +123,8 @@ public class BotsingIndividualStrategy extends TestGenerationStrategy {
                 return new GuidedGeneticAlgorithm(getChromosomeFactory());
             case Multi_Objective_GGA:
                 return new GuidedNSGAII(getChromosomeFactory());
+            case Adaptive_GGA:
+                return new AdaptiveGuidedGeneticAlgorithm(getChromosomeFactory());
             default:
                 return new GuidedGeneticAlgorithm(getChromosomeFactory());
         }
@@ -136,6 +139,7 @@ public class BotsingIndividualStrategy extends TestGenerationStrategy {
             case Multi_Objective_GGA:
                 return new ArrayList<>(Arrays.asList(fitnessFunctionHelper.getMultiObjectives()));
             case Single_Objective_GGA:
+            case Adaptive_GGA:
             default:
                 List<TestFitnessFunction> result = new ArrayList<TestFitnessFunction>(1);
                 result.add(fitnessFunctionHelper.getSingleObjective(0));

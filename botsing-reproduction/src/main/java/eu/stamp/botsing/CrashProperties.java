@@ -73,7 +73,8 @@ public class CrashProperties {
 
     public enum SearchAlgorithm {
         Single_Objective_GGA,
-        Multi_Objective_GGA;
+        Multi_Objective_GGA,
+        Adaptive_GGA;
 
         SearchAlgorithm() {
         }
@@ -198,6 +199,11 @@ public class CrashProperties {
                 searchAlgorithm = SearchAlgorithm.Multi_Objective_GGA;
                 fitnessFunctions = new CrashProperties.FitnessFunction[]{FitnessFunction.LineDistance, FitnessFunction.ExceptionDistance, FitnessFunction.TraceDistance};
                 LOG.info("Using search algorithm NSGA-II.");
+                break;
+            case "adaptive":
+                searchAlgorithm = SearchAlgorithm.Adaptive_GGA;
+                fitnessFunctions = new CrashProperties.FitnessFunction[]{FitnessFunction.WeightedSum};
+                LOG.info("Using search algorithm AdaptiveGGA.");
                 break;
             case "gga":
             default:

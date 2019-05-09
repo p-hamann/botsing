@@ -71,7 +71,7 @@ public class CommandLineParameters {
         // Search algorithm
         options.addOption(Option.builder(SEARCH_ALGO_OPT)
                 .hasArg()
-                .desc("Search algorithm: \"gga\" (default), \"nsga-ii\"")
+                .desc("Search algorithm: \"gga\" (default), \"nsga-ii\", \"adaptive\"")
                 .build());
         // Help message
         options.addOption(Option.builder(HELP_OPT)
